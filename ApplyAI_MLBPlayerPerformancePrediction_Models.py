@@ -5,6 +5,8 @@ from scikit.linear_model import LinearRegression
 from scikit.linear_model import Lasso
 from scikit.linear_model import ElasticNet
 from sklearn.neighbors import KNeighborsClassifier
+from sklearn.metrics import mean_absolute_error,r2_score 
+
 
 def performancelinear():
     #first attempt approach with hitter data/stats, then depending on efficacy tweak & add defensive stats
@@ -18,10 +20,21 @@ def performancelinear():
     regressor = LinearRegression()
     regressor.fit(x_train, y_train)
     y_pred = regressor.predict(x_test)
+    return (r2_score(y_test,y_pred))
 
 def performancelasso():
+    regressor = Lasso()
+    x_train, x_test, y_train, y_test = train_test_split(x,y,test_size=1/3,random_state=0)
+    regressor.fit(x_train,y_train)
+    y_pred = regressor.predict(x_test)
+    return (r2_score(y_test,y_pred))
 
 def performanceelasticnet():
+    regressor = ElasticNet()
+    x_train, x_test, y_train, y_test = train_test_split(x,y,test_size=1/3,random_state=0)
+    regressor.fit(x_train,y_train)
+    y_pred = regressor.predict(x_test)
+    return (r2_score(y_test,y_pred))
 
 def performanceKNNvisualization():
 
