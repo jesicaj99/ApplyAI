@@ -1,0 +1,49 @@
+# Player Game Data Parser
+import pandas as pd
+
+
+hitter_by_game_df = pd.read_csv('hittersByGame(player_offense_data).csv',skiprows=)
+pitcher_by_game_df = pd.read_csv('pitchersByGame(pitcher_data).csv')
+baserunning_by_game_df = pd.read_csv('baserunningNotes(player_offense_data).csv')
+fielding_by_game_df = pd.read_csv('fieldingNotes(player_defensive_data).csv')
+
+
+#gets rid of unnecessary columns in hitter csv
+def clean_sorted_hitter():
+    del hitter_by_game_df['H-AB']
+    del hitter_by_game_df['AB']
+    del hitter_by_game_df['H']
+    del hitter_by_game_df['#P']
+    del hitter_by_game_df['Game']
+    del hitter_by_game_df['Team']
+    del hitter_by_game_df['Hitter Id']
+    sorted_hitter_df = hitter_by_game_df.sort_values(by='Hitters')
+    return sorted_hitter_df
+
+#gets rids of unnecessary columns in pitcher csv
+def clean_sorted_pitcher():
+    del pitcher_by_game_df['R']
+    del pitcher_by_game_df['ER']
+    del pitcher_by_game_df['PC']
+    del pitcher_by_game_df['Game']
+    del pitcher_by_game_df['Team']
+    del pitcher_by_game_df['Extra']
+    del pitcher_by_game_df['Pitcher Id']
+    sorted_pitcher_df = pitcher_by_game_df.sort_values(by='Pitchers')
+    return sorted_pitcher_df
+
+#gets rids of unnecessary fielding columns
+def clean_sorted_fielding():
+    del fielding_by_game_df['Game']
+    sorted_fielding_df = fielding_by_game_df.sort_values(by='Team')
+    return sorted_fielding_df
+
+#gets rids of unnececessary baserunning columns
+def clean_sorted_baserunning():
+    del baserunning_by_game_df['Game']
+    sorted_baserunning_df = baserunning_by_game_df.sort_values(by='Team')
+    return sorted_baserunning_df
+
+
+
+
