@@ -1,6 +1,6 @@
 from os import name
 import pandas as pd
-from DataParser import clean_sorted_fielding, clean_sorted_hitter, clean_warp_hitter
+from DataParser import clean_sorted_fielding, clean_sorted_hitter, clean_sorted_pitcher, clean_warp_hitter
 import numpy as np
 from sklearn.model_selection import train_test_split
 from scikit.linear_model import LinearRegression
@@ -22,8 +22,8 @@ def performancelinear():
     # pulling data for models from the cleaned data from the dataparser program
     hitter_data = clean_sorted_hitter()
     hitter_pred_data = clean_warp_hitter()
-
-    #defensive_data = clean_sorted_fielding()
+    pitcher_data = clean_sorted_pitcher()
+    pitcher_pred_data = clean_warp_pitcher()   #defensive_data = clean_sorted_fielding()
     #combined_batter_data = [hitter_data,defensive_data]
     #combined_data = pd.concat(combined_batter_data) 
     #x = combined_data[['AVG', 'K','BB','OBP','SLG','']]  
@@ -41,12 +41,24 @@ def performancelinear():
     regressor = LinearRegression()
     regressor.fit(x_train, y_train)
     y_pred = regressor.predict(x_test)
-    
-    return (r2_score(y_test,y_pred))
+    a = []
+    b = []
+    a_train, a_test, b_train, b_test = train_test_split(a,b, test_size=.25,random_state=0)
+    for row in pitcher_pred_data.iterrows():
+        name = row[0]
+        if pitcher_data.loc[pitcher_data['name']==name]:
+            a += pitcher_data[name,['IP', 'BB','K','HR','ERA']]
+            # y is pulled from a separate database that I pulled to actually get the x variables to predict a "performance number" rather than a correlation between two statistics 
+            b+= pitcher_pred_data['WARP']
+    regressor = LinearRegression()
+    regressor.fit(a_train, b_train)
+    b_pred = regressor.predict(a_test)
+    print("hitter correlation" + r2_score(y_test,y_pred))
+    print("pitcher correlation" + r2_score(b_test,b_pred))
 
 def performancelasso():
     regressor = Lasso()
-    x_train, x_test, y_train, y_test = train_test_split(x,y,test_size=1/3,random_state=0)
+    x_train, x_test, y_train, y_test = train_test_split(x,y,test_size=.25,random_state=0)
     regressor.fit(x_train,y_train)
     y_pred = regressor.predict(x_test)
     return (r2_score(y_test,y_pred))

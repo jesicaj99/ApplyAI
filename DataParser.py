@@ -7,6 +7,7 @@ pitcher_by_game_df = pd.read_csv('pitchersByGame(pitcher_data).csv')
 baserunning_by_game_df = pd.read_csv('baserunningNotes(player_offense_data).csv')
 fielding_by_game_df = pd.read_csv('fieldingNotes(player_defensive_data).csv')
 warp_hitter_df = pd.read_csv('bp_hitters_2021.csv')
+warp_pitcher_df = pd.read_csv('bp_pitchers_2021.csv')
 oaa_hitter_df = pd.read_csv('outs_above_average.csv')
 
 
@@ -68,11 +69,31 @@ def clean_warp_hitter():
     sorted_warphitter_df = warp_hitter_df.sort_values(by='WARP')
     return sorted_warphitter_df
 
+def clean_warp_pitcher():
+    del warp_pitcher_df['bpid']
+    del warp_pitcher_df['mlbid']
+    del warp_pitcher_df['team']
+    del warp_pitcher_df['DRA-']
+    del warp_pitcher_df['DRA']
+    del warp_pitcher_df['DRA SD']
+    del warp_pitcher_df['cFIP']
+    del warp_pitcher_df['G']
+    del warp_pitcher_df['GS']
+    del warp_pitcher_df['W']
+    del warp_pitcher_df['L']
+    del warp_pitcher_df['ERA']
+    del warp_pitcher_df['RA9']
+    del warp_pitcher_df['K%']
+    del warp_pitcher_df['BB%']
+    del warp_pitcher_df['Whiff%']
+    sorted_warppitcher_df = warp_pitcher_df.sort_values(by='WARP')
+    return sorted_warppitcher_df
+
 def clean_oaa():
     del oaa_hitter_df['player_id']
     del oaa_hitter_df['display_team_name']
     del oaa_hitter_df['year']
     del oaa_hitter_df['primary_pos_formatted']
-    
+
 
 
