@@ -7,6 +7,7 @@ pitcher_by_game_df = pd.read_csv('pitchersByGame(pitcher_data).csv')
 baserunning_by_game_df = pd.read_csv('baserunningNotes(player_offense_data).csv')
 fielding_by_game_df = pd.read_csv('fieldingNotes(player_defensive_data).csv')
 warp_hitter_df = pd.read_csv('bp_hitters_2021.csv')
+oaa_hitter_df = pd.read_csv('outs_above_average.csv')
 
 
 #gets rid of unnecessary columns in hitter csv
@@ -67,5 +68,11 @@ def clean_warp_hitter():
     sorted_warphitter_df = warp_hitter_df.sort_values(by='WARP')
     return sorted_warphitter_df
 
+def clean_oaa():
+    del oaa_hitter_df['player_id']
+    del oaa_hitter_df['display_team_name']
+    del oaa_hitter_df['year']
+    del oaa_hitter_df['primary_pos_formatted']
+    
 
 

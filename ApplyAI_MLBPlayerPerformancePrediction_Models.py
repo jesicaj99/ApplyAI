@@ -1,3 +1,4 @@
+from os import name
 import pandas as pd
 from DataParser import clean_sorted_fielding, clean_sorted_hitter, clean_warp_hitter
 import numpy as np
@@ -26,11 +27,15 @@ def performancelinear():
     #combined_batter_data = [hitter_data,defensive_data]
     #combined_data = pd.concat(combined_batter_data) 
     #x = combined_data[['AVG', 'K','BB','OBP','SLG','']]  
-
+    x = []
+    y = []
     #multiple linear regression where x is composed of multiple variables
-    x = hitter_data[['AVG', 'K','BB','OBP','SLG']]
-    # y is pulled from a separate database that I pulled to actually get the x variables to predict a "performance number" rather than a correlation between two statistics 
-    y = hitter_pred_data['WARP']
+    for row in hitter_pred_data.iterrows():
+        name = row[0]
+        if hitter_data.loc[hitter_data['name']==name]:
+            x += hitter_data[name,['AVG', 'K','BB','OBP','SLG']]
+            # y is pulled from a separate database that I pulled to actually get the x variables to predict a "performance number" rather than a correlation between two statistics 
+            y += hitter_pred_data['WARP']
     # add additional factors based off of rows in the relevant cavs, (player.csv for players, pitcher.csv for pitchers)
     x_train, x_test, y_train, y_test = train_test_split(x,y, test_size=.25,random_state=0)
     regressor = LinearRegression()
