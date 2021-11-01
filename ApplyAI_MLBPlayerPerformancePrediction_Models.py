@@ -17,13 +17,19 @@ def performancelinear():
     # TRIPLE NOTE-> add baserunning as a variable as well(outcomes of baserunning are stealing, caught stealing, picked off)
     # after hitter stats attempt, run again w/ pitcher data
     # as we don't have framing data currently it might be better to include catchers as just typical positional players
+
+    # pulling data for models from the cleaned data from the dataparser program
     hitter_data = clean_sorted_hitter()
     hitter_pred_data = clean_warp_hitter()
+
     #defensive_data = clean_sorted_fielding()
     #combined_batter_data = [hitter_data,defensive_data]
     #combined_data = pd.concat(combined_batter_data) 
     #x = combined_data[['AVG', 'K','BB','OBP','SLG','']]  
+
+    #multiple linear regression where x is composed of multiple variables
     x = hitter_data[['AVG', 'K','BB','OBP','SLG']]
+    # y is pulled from a separate database that I pulled to actually get the x variables to predict a "performance number" rather than a correlation between two statistics 
     y = hitter_pred_data['WARP']
     # add additional factors based off of rows in the relevant cavs, (player.csv for players, pitcher.csv for pitchers)
     x_train, x_test, y_train, y_test = train_test_split(x,y, test_size=.25,random_state=0)
