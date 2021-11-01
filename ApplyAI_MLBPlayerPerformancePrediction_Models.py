@@ -1,5 +1,5 @@
 import pandas as pd
-from DataParser import clean_sorted_hitter
+from DataParser import clean_sorted_fielding, clean_sorted_hitter, clean_warp_hitter
 import numpy as np
 from sklearn.model_selection import train_test_split
 from scikit.linear_model import LinearRegression
@@ -18,16 +18,19 @@ def performancelinear():
     # after hitter stats attempt, run again w/ pitcher data
     # as we don't have framing data currently it might be better to include catchers as just typical positional players
     hitter_data = clean_sorted_hitter()
-    x = hitter_data.AVG  
-    y = hitter_data.OBP
-    z = hitter_data.SLG
-    a = hitter_data.K 
-    b = hitter_data.BB  
+    hitter_pred_data = clean_warp_hitter()
+    #defensive_data = clean_sorted_fielding()
+    #combined_batter_data = [hitter_data,defensive_data]
+    #combined_data = pd.concat(combined_batter_data) 
+    #x = combined_data[['AVG', 'K','BB','OBP','SLG','']]  
+    x = hitter_data[['AVG', 'K','BB','OBP','SLG']]
+    y = hitter_pred_data['WARP']
     # add additional factors based off of rows in the relevant cavs, (player.csv for players, pitcher.csv for pitchers)
-    x_train, x_test, y_train, y_test, z_train, z_test, a_train, a_test, b_train,b_test = train_test_split(x,y,z,a,b, test_size=.25,random_state=0)
+    x_train, x_test, y_train, y_test = train_test_split(x,y, test_size=.25,random_state=0)
     regressor = LinearRegression()
-    regressor.fit(x_train, y_train,z_train,a_train,b_train)
+    regressor.fit(x_train, y_train)
     y_pred = regressor.predict(x_test)
+    
     return (r2_score(y_test,y_pred))
 
 def performancelasso():

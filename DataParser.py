@@ -6,6 +6,7 @@ hitter_by_game_df = pd.read_csv('hittersByGame(player_offense_data).csv',skiprow
 pitcher_by_game_df = pd.read_csv('pitchersByGame(pitcher_data).csv')
 baserunning_by_game_df = pd.read_csv('baserunningNotes(player_offense_data).csv')
 fielding_by_game_df = pd.read_csv('fieldingNotes(player_defensive_data).csv')
+warp_hitter_df = pd.read_csv('bp_hitters_2021.csv')
 
 
 #gets rid of unnecessary columns in hitter csv
@@ -44,6 +45,27 @@ def clean_sorted_baserunning():
     sorted_baserunning_df = baserunning_by_game_df.sort_values(by='Team')
     return sorted_baserunning_df
 
+def clean_warp_hitter():
+    del warp_hitter_df['bpid']
+    del warp_hitter_df['mlbid']
+    del warp_hitter_df['Age']
+    del warp_hitter_df['DRC+']
+    del warp_hitter_df['+/-']
+    del warp_hitter_df['PA']
+    del warp_hitter_df['AB']
+    del warp_hitter_df['R']
+    del warp_hitter_df['RBI']
+    del warp_hitter_df['SB']
+    del warp_hitter_df['AVG']
+    del warp_hitter_df['OBP']
+    del warp_hitter_df['SLG']
+    del warp_hitter_df['ISO']
+    del warp_hitter_df['K%']
+    del warp_hitter_df['BB%']
+    del warp_hitter_df['K/BB']
+    del warp_hitter_df['Whiff%']
+    sorted_warphitter_df = warp_hitter_df.sort_values(by='WARP')
+    return sorted_warphitter_df
 
 
 
