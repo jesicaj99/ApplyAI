@@ -13,25 +13,13 @@ oaa_hitter_df = pd.read_csv('outs_above_average.csv')
 
 #gets rid of unnecessary columns in hitter csv
 def clean_sorted_hitter():
-    del hitter_by_game_df['H-AB']
-    del hitter_by_game_df['AB']
-    del hitter_by_game_df['H']
-    del hitter_by_game_df['#P']
-    del hitter_by_game_df['Game']
-    del hitter_by_game_df['Team']
-    del hitter_by_game_df['Hitter Id']
+    hitter_by_game_df.drop(['H-AB', 'AB', 'H', 'P', 'Game', 'Team', 'Hitter Id'], axis = 1)
     sorted_hitter_df = hitter_by_game_df.sort_values(by='Hitters')
     return sorted_hitter_df
 
 #gets rids of unnecessary columns in pitcher csv
 def clean_sorted_pitcher():
-    del pitcher_by_game_df['R']
-    del pitcher_by_game_df['ER']
-    del pitcher_by_game_df['PC']
-    del pitcher_by_game_df['Game']
-    del pitcher_by_game_df['Team']
-    del pitcher_by_game_df['Extra']
-    del pitcher_by_game_df['Pitcher Id']
+    pitcher_by_game_df.drop(['R', 'ER', 'PC', 'Game', 'Team', 'Extra', 'Pitcher Id'], axis = 1)
     sorted_pitcher_df = pitcher_by_game_df.sort_values(by='Pitchers')
     return sorted_pitcher_df
 
@@ -48,24 +36,7 @@ def clean_sorted_baserunning():
     return sorted_baserunning_df
 
 def clean_warp_hitter():
-    del warp_hitter_df['bpid']
-    del warp_hitter_df['mlbid']
-    del warp_hitter_df['Age']
-    del warp_hitter_df['DRC+']
-    del warp_hitter_df['+/-']
-    del warp_hitter_df['PA']
-    del warp_hitter_df['AB']
-    del warp_hitter_df['R']
-    del warp_hitter_df['RBI']
-    del warp_hitter_df['SB']
-    del warp_hitter_df['AVG']
-    del warp_hitter_df['OBP']
-    del warp_hitter_df['SLG']
-    del warp_hitter_df['ISO']
-    del warp_hitter_df['K%']
-    del warp_hitter_df['BB%']
-    del warp_hitter_df['K/BB']
-    del warp_hitter_df['Whiff%']
+    warp_hitter_df.drop(['bpid', 'mlbid', 'Age', 'DRC+', '+/-', 'PA', 'R', 'RBI','ISO', 'K', 'BB%','Whiff%'], axis = 1)
     sorted_warphitter_df = warp_hitter_df.sort_values(by='WARP')
     return sorted_warphitter_df
 
