@@ -31,7 +31,7 @@ def performancelinear():
     print("R2Linear - pitcher correlation: " + r2_score(b_test,b_pred) + ", RMSELinear - pitcher correlation: " + mean_squared_error(b_test,b_pred))
     figure  = px.scatter(y_pred,y_test, x = 'Predicted Performance Hitter(Linear)', y = 'Actual Performance Hitter(WARP)', hover_name = y_test-y_pred, title = 'Actual Performance Hitter vs. Pred. Performance')
     figure.show()
-    figure  = px.scatter(b_pred,b_test, x = 'Predicted Performance Pitcher(Linear)', y = 'Actual Performance Pitcher(WARP)', hover_name = y_test-y_pred, title = 'Actual Performance Pitchervs. Pred. Performance')
+    figure  = px.scatter(b_pred,b_test, x = 'Predicted Performance Pitcher(Linear)', y = 'Actual Performance Pitcher(WARP)', hover_name = y_test-y_pred, title = 'Actual Performance Pitcher vs. Pred. Performance')
     figure.show()  
 
 def performancelasso():
@@ -45,7 +45,7 @@ def performancelasso():
     print("R2Lasso - pitcher correlation: " + r2_score(b_test,b_pred) + ", RMSELasso - pitcher correlation: " + mean_squared_error(b_test,b_pred))
     figure  = px.scatter(y_pred,y_test, x = 'Predicted Performance Hitter(Linear)', y = 'Actual Performance Hitter(WARP)', hover_name = y_test-y_pred, title = 'Actual Performance Hitter vs. Pred. Performance')
     figure.show()
-    figure  = px.scatter(b_pred,b_test, x = 'Predicted Performance Pitcher(Linear)', y = 'Actual Performance Pitcher(WARP)', hover_name = y_test-y_pred, title = 'Actual Performance Pitchervs. Pred. Performance')
+    figure  = px.scatter(b_pred,b_test, x = 'Predicted Performance Pitcher(Linear)', y = 'Actual Performance Pitcher(WARP)', hover_name = y_test-y_pred, title = 'Actual Performance Pitcher vs. Pred. Performance')
     figure.show()
 
 def performanceelasticnet():
@@ -59,7 +59,7 @@ def performanceelasticnet():
     print("R2Elastic - pitcher correlation: " + r2_score(b_test,b_pred) + ", RMSEElastic - pitcher correlation: " + mean_squared_error(b_test,b_pred))
     figure  = px.scatter(y_pred,y_test, x = 'Predicted Performance Hitter(Linear)', y = 'Actual Performance Hitter(WARP)', hover_name = y_test-y_pred, title = 'Actual Performance Hitter vs. Pred. Performance')
     figure.show()
-    figure  = px.scatter(b_pred,b_test, x = 'Predicted Performance Pitcher(Linear)', y = 'Actual Performance Pitcher(WARP)', hover_name = y_test-y_pred, title = 'Actual Performance Pitchervs. Pred. Performance')
+    figure  = px.scatter(b_pred,b_test, x = 'Predicted Performance Pitcher(Linear)', y = 'Actual Performance Pitcher(WARP)', hover_name = y_test-y_pred, title = 'Actual Performance Pitcher vs. Pred. Performance')
     figure.show()
 
 def performanceknnvisualization():

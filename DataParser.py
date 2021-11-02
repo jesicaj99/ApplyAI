@@ -41,30 +41,11 @@ def clean_warp_hitter():
     return sorted_warphitter_df
 
 def clean_warp_pitcher():
-    del warp_pitcher_df['bpid']
-    del warp_pitcher_df['mlbid']
-    del warp_pitcher_df['team']
-    del warp_pitcher_df['DRA-']
-    del warp_pitcher_df['DRA']
-    del warp_pitcher_df['DRA SD']
-    del warp_pitcher_df['cFIP']
-    del warp_pitcher_df['G']
-    del warp_pitcher_df['GS']
-    del warp_pitcher_df['W']
-    del warp_pitcher_df['L']
-    del warp_pitcher_df['ERA']
-    del warp_pitcher_df['RA9']
-    del warp_pitcher_df['K%']
-    del warp_pitcher_df['BB%']
-    del warp_pitcher_df['Whiff%']
+    warp_pitcher_df.drop(['bpid', 'mlbid', 'DRA-', 'DRA+', 'DRA SD', 'cFIP', 'GS', 'W','L', 'ERA', 'RA9','Whiff%'], axis = 1)
     sorted_warppitcher_df = warp_pitcher_df.sort_values(by='WARP')
     return sorted_warppitcher_df
 
 def clean_oaa():
-    del oaa_hitter_df['player_id']
-    del oaa_hitter_df['display_team_name']
-    del oaa_hitter_df['year']
-    del oaa_hitter_df['primary_pos_formatted']
-
+    oaa_hitter_df.drop(['player_id','display_team_name','year','primary_pos_formatted'],axis = 1)
 
 
