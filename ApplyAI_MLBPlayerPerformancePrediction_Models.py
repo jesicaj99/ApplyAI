@@ -1,6 +1,6 @@
 from os import name
 import pandas as pd
-from DataParser import clean_defensive_players, clean_sorted_fielding, clean_sorted_hitter, clean_sorted_pitcher, clean_war, clean_warp_hitter, clean_warp_pitcher
+from DataParser import clean_defensive_players, clean_sorted_baserunning, clean_sorted_fielding, clean_sorted_hitter, clean_sorted_pitcher, clean_war, clean_warp_hitter, clean_warp_pitcher
 import numpy as np
 from sklearn.model_selection import train_test_split
 from scikit.linear_model import LinearRegression
@@ -113,7 +113,8 @@ def data_preparation():
 	hitter_pred_data = clean_warp_hitter()
 	pitcher_data = clean_sorted_pitcher()
 	pitcher_pred_data = clean_warp_pitcher()
-	defensive_values = clean_defensive_players()  
+	defensive_values = clean_defensive_players() 
+	baserunning_values = clean_sorted_baserunning() 
 	war_values = clean_war()
 
 	x_warp = []
@@ -131,6 +132,8 @@ def data_preparation():
 			y_war+=war_values['Total War']
 		if defensive_values.get_val(name) != "No record found":
 			x_war+= defensive_values.get_val(name)
+		if baserunning_values.get_val(name) != "No record found":
+			x_war+= baserunning_values.get_val(name)
 
 	# add additional factors based off of rows in the relevant cavs, (player.csv for players, pitcher.csv for pitchers)
 	x_warp_train, x_warp_test, y_warp_train, y_warp_test = train_test_split(x_warp,y_warp, test_size=.25,random_state=1)
