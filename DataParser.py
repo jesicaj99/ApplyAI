@@ -48,7 +48,7 @@ def clean_warp_pitcher():
     return sorted_warppitcher_df
 
 def clean_war():
-    war_df.drop(['playerid','Team','Pos','Primary WAR'])
+    war_df.drop(['playerid','Team','Pos'])
     sorted_war_df = war_df.sort_values(by='Total WAR')
     return sorted_war_df
 
@@ -193,8 +193,3 @@ class HashTable:
 	# To print the items of hash map
 	def __str__(self):
 		return "".join(str(item) for item in self.hash_table)
-
-
-
-
-                

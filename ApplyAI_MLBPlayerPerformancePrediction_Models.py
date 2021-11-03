@@ -22,7 +22,7 @@ def performancelinear():
     # QUADRUPLE NOTE-> after further data exploration, this is boiling down into total runs scored + total runs saved into a predictor for player performance -> WARP + defensive stat created, compare to WAR
     # QUINTUPLE NOTE-> For pitchers, it boils down to total runs saved through pitching really
     # pulling data for models from the cleaned data from the dataparser program
-    x_warp_train,x_warp_test,y_warp_train,y_warp_test,x_war_train,x_war_test,y_war_train,y_war_test,a_train,a_test,b_train,b_test = data_preparation()
+    x_warp_train,x_warp_test,y_warp_train,y_warp_test,x_war_train,x_war_test,y_war_train,y_war_test,a_warp_train,a_warp_test,b_warp_train,b_warp_test,a_war_train, a_war_test, b_war_train, b_war_test = data_preparation()
     regressor = LinearRegression()
     regressor.fit(x_warp_train, y_warp_train)
     y_warp_pred = regressor.predict(x_warp_test)
@@ -30,13 +30,20 @@ def performancelinear():
     regressor.fit(x_war_train, y_war_train)
     y_war_pred = regressor.predict(x_war_test)
     print("R2Linear - hitter WAR correlation: " + r2_score(y_war_test,y_war_pred) + ", RMSELinear - hitter WAR correlation: " + mean_squared_error(y_war_test,y_war_pred))
-    regressor.fit(a_train, b_train)
-    b_pred = regressor.predict(a_test)
-    print("R2Linear - pitcher correlation: " + r2_score(b_test,b_pred) + ", RMSELinear - pitcher correlation: " + mean_squared_error(b_test,b_pred))
+    regressor.fit(a_warp_train, b_warp_train)
+    b_warp_pred = regressor.predict(a_warp_test)
+    print("R2Linear - pitcher correlation: " + r2_score(b_warp_test,b_warp_pred) + ", RMSELinear - pitcher correlation: " + mean_squared_error(b_warp_test,b_warp_pred))
+    regressor.fit(a_war_train, b_war_train)
+    b_war_pred = regressor.predict(a_war_test)
+    print("R2Linear - pitcher correlation: " + r2_score(b_war_test,b_war_pred) + ", RMSELinear - pitcher correlation: " + mean_squared_error(b_war_test,b_war_pred))
     figure  = px.scatter(y_warp_pred,y_warp_test, x = 'Predicted Performance Hitter(Linear)', y = 'Actual Performance Hitter(WARP)', hover_name = y_warp_test-y_warp_pred, title = 'Actual Performance Hitter vs. Pred. Performance')
     figure.show()
-    figure  = px.scatter(b_pred,b_test, x = 'Predicted Performance Pitcher(Linear)', y = 'Actual Performance Pitcher(WARP)', hover_name = y_warp_test-y_warp_pred, title = 'Actual Performance Pitcher vs. Pred. Performance')
-    figure.show()  
+    figure  = px.scatter(y_war_pred,y_war_test, x = 'Predicted Performance Hitter(Linear)', y = 'Actual Performance Hitter(WAR)', hover_name = y_war_test-y_war_pred, title = 'Actual Performance Hitter vs. Pred. Performance')
+    figure.show()
+    figure  = px.scatter(b_warp_pred,b_warp_test, x = 'Predicted Performance Pitcher(Linear)', y = 'Actual Performance Pitcher(WARP)', hover_name = b_warp_test-b_warp_pred, title = 'Actual Performance Pitcher vs. Pred. Performance')
+    figure.show()
+    figure  = px.scatter(b_war_pred,b_war_test, x = 'Predicted Performance Pitcher(Linear)', y = 'Actual Performance Pitcher(WAR)', hover_name = b_war_test-b_war_pred, title = 'Actual Performance Pitcher vs. Pred. Performance')
+    figure.show()    
 
 def performancelasso():
     x_train,x_test,y_train,y_test,a_train,a_test,b_train,b_test = data_preparation()
@@ -106,16 +113,22 @@ def data_preparation():
     # add additional factors based off of rows in the relevant cavs, (player.csv for players, pitcher.csv for pitchers)
     x_warp_train, x_warp_test, y_warp_train, y_warp_test = train_test_split(x_warp,y_warp, test_size=.25,random_state=1)
     x_war_train, x_war_test, y_war_train, y_war_test = train_test_split(x_war, y_war, test_size = .25, random_state=1)
-    a = []
-    b = []
+    a_warp = []
+    b_warp = []
+    a_war=[]
+    b_war = []
     for row in pitcher_pred_data.iterrows():
         name = row[0]
         if pitcher_data.loc[pitcher_data['name']==name]:
-            a += pitcher_data[name,['IP', 'BB','K','HR','ERA']]
+            a_warp += pitcher_data[name,['IP', 'BB','K','HR','ERA']]
             # y is pulled from a separate database that I pulled to actually get the x variables to predict a "performance number" rather than a correlation between two statistics 
-            b+= pitcher_pred_data['WARP']
-    a_train, a_test, b_train, b_test = train_test_split(a,b, test_size=.25,random_state=1)
-    return (x_warp_train,x_warp_test,y_warp_train,y_warp_test,x_war_train,x_war_test,y_war_train,y_war_test,a_train,a_test,b_train,b_test)
+            b_warp+= pitcher_pred_data['WARP']
+            b_war+=war_values['Primary WAR']
+    a_warp_train, a_warp_test, b_warp_train, b_warp_test = train_test_split(a_warp,b_warp, test_size=.25,random_state=1)
+    a_war_train, a_war_test, b_war_train, b_war_test = train_test_split(a_war,b_war, test_size=.25,random_state=1)
+    
+
+    return (x_warp_train,x_warp_test,y_warp_train,y_warp_test,x_war_train,x_war_test,y_war_train,y_war_test,a_warp_train,a_warp_test,b_warp_train,b_warp_test,a_war_train, a_war_test, b_war_train, b_war_test)
 
 
 def main():
