@@ -70,6 +70,7 @@ def clean_sorted_baserunning():
 						runsadded[x]-=1
 					else:
 						playerstotal.append(playerscurrent[x])
+						
 	for x in range(0, len(runsadded)):
 		scores[x] = (runsadded[x] / 3)
 
