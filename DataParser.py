@@ -11,7 +11,7 @@ warp_hitter_df = pd.read_csv('bp_hitters_2021.csv')
 warp_pitcher_df = pd.read_csv('bp_pitchers_2021.csv')
 oaa_hitter_df = pd.read_csv('outs_above_average.csv')
 fielding_df = pd.read_csv('fieldingNotes(player_defensive_data).csv')
-
+war_df = pd.read_csv('FanGraphs Leaderboard.csv')
 
 #gets rid of unnecessary columns in hitter csv
 def clean_sorted_hitter():
@@ -46,6 +46,11 @@ def clean_warp_pitcher():
     warp_pitcher_df.drop(['bpid', 'mlbid', 'DRA-', 'DRA+', 'DRA SD', 'cFIP', 'GS', 'W','L', 'ERA', 'RA9','Whiff%'], axis = 1)
     sorted_warppitcher_df = warp_pitcher_df.sort_values(by='WARP')
     return sorted_warppitcher_df
+
+def clean_war():
+    war_df.drop(['playerid','Team','Pos','Primary WAR'])
+    sorted_war_df = war_df.sort_values(by='Total WAR')
+    return sorted_war_df
 
 def clean_defensive_players():
     oaa_hitter_df.drop(['player_id','display_team_name','year','primary_pos_formatted'],axis = 1)
@@ -89,14 +94,12 @@ def clean_defensive_players():
                         playerstotal.append(playerscurrent[x])
                         scores.append(-.5) 
         
-    hash_table = HashTable(len(scores))
+    defensivevalues_hash_table = HashTable(len(scores))
     for x in range(0,len(scores)):
-        hash_table.set_val(playerstotal[x], scores[x])
+        defensivevalues_hash_table.set_val(playerstotal[x], scores[x])
+    return defensivevalues_hash_table
 
 
-
-# search/access a record with key
-print(hash_table.get_val('portal@example.com'))
 
 class HashTable:
 
