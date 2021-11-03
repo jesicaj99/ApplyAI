@@ -116,10 +116,6 @@ def data_preparation():
 	defensive_values = clean_defensive_players()  
 	war_values = clean_war()
 
-	#defensive_data = clean_sorted_fielding()
-	#combined_batter_data = [hitter_data,defensive_data]
-	#combined_data = pd.concat(combined_batter_data) 
-	#x = combined_data[['AVG', 'K','BB','OBP','SLG','']]  
 	x_warp = []
 	y_warp = []
 	x_war = []

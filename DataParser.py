@@ -25,12 +25,6 @@ def clean_sorted_pitcher():
 	sorted_pitcher_df = pitcher_by_game_df.sort_values(by='Pitchers')
 	return sorted_pitcher_df
 
-#gets rids of unnecessary fielding columns
-def clean_sorted_fielding():
-	del fielding_by_game_df['Game']
-	sorted_fielding_df = fielding_by_game_df.sort_values(by='Team')
-	return sorted_fielding_df
-
 #gets rids of unnececessary baserunning columns
 def clean_sorted_baserunning():
 	del baserunning_by_game_df['Game']
