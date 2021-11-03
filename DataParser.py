@@ -49,7 +49,7 @@ def clean_sorted_baserunning():
 	playerscurrent = []
 	playerstotal = []
 	runsadded = []	
-	for key,value in sorted_fielding_df.iteritems():
+	for key,value in sorted_baserunning_df.iteritems():
 		statlines = value.split(',')
 		if statlines[0] == 'SB':
 			for x in int(statlines[1][:1]):
@@ -57,17 +57,17 @@ def clean_sorted_baserunning():
 			for x in range(0,len(playerscurrent)):
 				for y in range(0,len(playerstotal)):
 					if playerscurrent[x] == playerstotal[y]:
-						outssaved[x]+=1
+						runsadded[x]+=1
 					else:
 						playerstotal.append(playerscurrent[x])
-						outssaved.append(1)
+						runsadded.append(1)
 		elif statlines[0] == 'CS':
 			for x in int(statlines[1][:1]):
 				playerscurrent = re.findall(capitalized_words, statlines[x+2])
 			for x in range(0,len(playerscurrent)):
 				for y in range(0,len(playerstotal)):
 					if playerscurrent[x] == playerstotal[y]:
-						outssaved[x]-=1
+						runsadded[x]-=1
 					else:
 						playerstotal.append(playerscurrent[x])
 						outssaved.append(-1)
