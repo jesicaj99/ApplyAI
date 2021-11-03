@@ -1,7 +1,8 @@
 # Player Game Data Parser
 import pandas as pd
+import re
 
-
+capitalized_words = r"((?:[A-Z][a-z']+ ?)+)" #regex to get capitalized words in sentence
 hitter_by_game_df = pd.read_csv('hittersByGame(player_offense_data).csv',skiprows=)
 pitcher_by_game_df = pd.read_csv('pitchersByGame(pitcher_data).csv')
 baserunning_by_game_df = pd.read_csv('baserunningNotes(player_offense_data).csv')
@@ -9,11 +10,12 @@ fielding_by_game_df = pd.read_csv('fieldingNotes(player_defensive_data).csv')
 warp_hitter_df = pd.read_csv('bp_hitters_2021.csv')
 warp_pitcher_df = pd.read_csv('bp_pitchers_2021.csv')
 oaa_hitter_df = pd.read_csv('outs_above_average.csv')
+fielding_df = pd.read_csv('fieldingNotes(player_defensive_data).csv')
 
 
 #gets rid of unnecessary columns in hitter csv
 def clean_sorted_hitter():
-    hitter_by_game_df.drop(['H-AB', 'AB', 'H', 'P', 'Game', 'Team', 'Hitter Id'], axis = 1)
+    hitter_by_game_df.drop(['H-AB', 'AB', 'H', '#P', 'Game', 'Team', 'Hitter Id'], axis = 1)
     sorted_hitter_df = hitter_by_game_df.sort_values(by='Hitters')
     return sorted_hitter_df
 
@@ -45,7 +47,18 @@ def clean_warp_pitcher():
     sorted_warppitcher_df = warp_pitcher_df.sort_values(by='WARP')
     return sorted_warppitcher_df
 
-def clean_oaa():
+def clean_defensive():
     oaa_hitter_df.drop(['player_id','display_team_name','year','primary_pos_formatted'],axis = 1)
-
-
+    fielding_df.drop(['Game','Team'])
+    sorted_fielding_df = fielding_df.sort_values(by='Stat')
+    players = []
+    
+    #TODO, assigning values for various defensive plays to the players that participated in them, keep track of them via secondary array (hashmap w/ key and value?)
+    for key,value in sorted_fielding_df.iteritems():
+        statlines = value.split(',')
+        if statlines[0] == 'DP':
+            for x in int(statlines[1][:1]):
+                players = re.findall(capitalized_words, statlines[x+2]))
+            for x in players:
+                
+                

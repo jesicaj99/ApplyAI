@@ -19,7 +19,8 @@ def performancelinear():
     # TRIPLE NOTE-> add baserunning as a variable as well(outcomes of baserunning are stealing, caught stealing, picked off)
     # after hitter stats attempt, run again w/ pitcher data
     # as we don't have framing data currently it might be better to include catchers as just typical positional players
-
+    # QUADRUPLE NOTE-> after further data exploration, this is boiling down into total runs scored + total runs saved into a predictor for player performance -> WARP + defensive stat created, compare to WAR
+    # QUINTUPLE NOTE-> For pitchers, it boils down to total runs saved through pitching really
     # pulling data for models from the cleaned data from the dataparser program
     x_train,x_test,y_train,y_test,a_train,a_test,b_train,b_test = data_preparation()
     regressor = LinearRegression()
