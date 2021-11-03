@@ -3,7 +3,7 @@ import pandas as pd
 import re
 
 capitalized_words = r"((?:[A-Z][a-z']+ ?)+)" #regex to get capitalized words in sentence
-hitter_by_game_df = pd.read_csv('hittersByGame(player_offense_data).csv',skiprows=)
+hitter_by_game_df = pd.read_csv('hittersByGame(player_offense_data).csv')
 pitcher_by_game_df = pd.read_csv('pitchersByGame(pitcher_data).csv')
 baserunning_by_game_df = pd.read_csv('baserunningNotes(player_offense_data).csv')
 fielding_by_game_df = pd.read_csv('fieldingNotes(player_defensive_data).csv')
@@ -67,7 +67,7 @@ def clean_defensive_players():
 		statlines = value.split(',')
 		if statlines[0] == 'DP':
 			for x in int(statlines[1][:1]):
-				playerscurrent = re.findall(capitalized_words, statlines[x+2]))
+				playerscurrent = re.findall(capitalized_words, statlines[x+2])
 			for x in range(0,len(playerscurrent)):
 				for y in range(0,len(playerstotal)):
 					if playerscurrent[x] == playerstotal[y]:
@@ -77,7 +77,7 @@ def clean_defensive_players():
 						outssaved.append(1)
 		elif statlines[0] == 'Assists':
 			for x in int(statlines[1][:1]):
-				playerscurrent = re.findall(capitalized_words, statlines[x+2]))
+				playerscurrent = re.findall(capitalized_words, statlines[x+2])
 			for x in range(0,len(playerscurrent)):
 				for y in range(0,len(playerstotal)):
 					if playerscurrent[x] == playerstotal[y]:
@@ -87,7 +87,7 @@ def clean_defensive_players():
 						outssaved.append(.5)
 		elif statlines[0] == 'E':
 			for x in int(statlines[1][:1]):
-				playerscurrent = re.findall(capitalized_words, statlines[x+2]))
+				playerscurrent = re.findall(capitalized_words, statlines[x+2])
 			for x in range(0,len(playerscurrent)):
 				for y in range(0,len(playerstotal)):
 					if playerscurrent[x] == playerstotal[y]:
@@ -190,7 +190,7 @@ class HashTable:
 				break
 		if found_key:
 			bucket.pop(index)
-		return
+		
 
 	# To print the items of hash map
 	def __str__(self):
