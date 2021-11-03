@@ -11,6 +11,7 @@ warp_hitter_df = pd.read_csv('bp_hitters_2021.csv')
 warp_pitcher_df = pd.read_csv('bp_pitchers_2021.csv')
 oaa_hitter_df = pd.read_csv('outs_above_average.csv')
 fielding_df = pd.read_csv('fieldingNotes(player_defensive_data).csv')
+baserunning_df = pd.read_csv('baserunningNotes(player_offense_data).csv')
 war_df = pd.read_csv('FanGraphs Leaderboard.csv')
 
 #gets rid of unnecessary columns in hitter csv
@@ -24,12 +25,6 @@ def clean_sorted_pitcher():
 	pitcher_by_game_df.drop(['R', 'ER', 'PC', 'Game', 'Team', 'Extra', 'Pitcher Id'], axis = 1)
 	sorted_pitcher_df = pitcher_by_game_df.sort_values(by='Pitchers')
 	return sorted_pitcher_df
-
-#gets rids of unnececessary baserunning columns
-def clean_sorted_baserunning():
-	del baserunning_by_game_df['Game']
-	sorted_baserunning_df = baserunning_by_game_df.sort_values(by='Team')
-	return sorted_baserunning_df
 
 def clean_warp_hitter():
 	warp_hitter_df.drop(['bpid', 'mlbid', 'Age', 'DRC+', '+/-', 'PA', 'R', 'RBI','ISO', 'K', 'BB%','Whiff%'], axis = 1)
@@ -45,6 +40,55 @@ def clean_war():
 	war_df.drop(['playerid','Team','Pos'])
 	sorted_war_df = war_df.sort_values(by='Total WAR')
 	return sorted_war_df
+
+#gets rids of unnececessary baserunning columns
+def clean_sorted_baserunning():
+	del baserunning_by_game_df['Game']
+	sorted_baserunning_df = baserunning_by_game_df.sort_values(by='Stat')
+	scores = []
+	playerscurrent = []
+	playerstotal = []
+	runsadded = []	
+	for key,value in sorted_fielding_df.iteritems():
+		statlines = value.split(',')
+		if statlines[0] == 'SB':
+			for x in int(statlines[1][:1]):
+				playerscurrent = re.findall(capitalized_words, statlines[x+2])
+			for x in range(0,len(playerscurrent)):
+				for y in range(0,len(playerstotal)):
+					if playerscurrent[x] == playerstotal[y]:
+						outssaved[x]+=1
+					else:
+						playerstotal.append(playerscurrent[x])
+						outssaved.append(1)
+		elif statlines[0] == 'CS':
+			for x in int(statlines[1][:1]):
+				playerscurrent = re.findall(capitalized_words, statlines[x+2])
+			for x in range(0,len(playerscurrent)):
+				for y in range(0,len(playerstotal)):
+					if playerscurrent[x] == playerstotal[y]:
+						outssaved[x]-=1
+					else:
+						playerstotal.append(playerscurrent[x])
+						outssaved.append(-1)
+		elif statlines[0] == 'Picked Off':
+			for x in int(statlines[1][:1]):
+				playerscurrent = re.findall(capitalized_words, statlines[x+2])
+			for x in range(0,len(playerscurrent)):
+				for y in range(0,len(playerstotal)):
+					if playerscurrent[x] == playerstotal[y]:
+						runsadded[x]-=1
+					else:
+						playerstotal.append(playerscurrent[x])
+						runsadded.append(-1) 
+	for x in range(0, len(runsadded)):
+		scores[x] = (runsadded[x] / 3)
+
+	baserunningvalues_hash_table = HashTable(len(scores))
+	for x in range(0,len(scores)):
+		baserunningvalues_hash_table.set_val(playerstotal[x], scores[x])
+	return baserunningvalues_hash_table
+
 
 def clean_defensive_players():
 	oaa_hitter_df.drop(['player_id','display_team_name','year','primary_pos_formatted'],axis = 1)
