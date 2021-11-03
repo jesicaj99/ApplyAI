@@ -11,9 +11,7 @@ from sklearn.metrics import mean_absolute_error,r2_score, mean_squared_error
 import DataParser.py
 import plotly.express as px
 
-
-def performancelinear():
-    #first attempt approach with hitter data/stats, then depending on efficacy tweak & add defensive stats
+#first attempt approach with hitter data/stats, then depending on efficacy tweak & add defensive stats
     # NOTE -> hitting stats include (walks, pitches taken, average, obp+slug)
     # DOUBLE NOTE-> defensive stats will have to only include fielding (outcomes of fielding are (double play, assist, error, passed ball *catcher specific might disregard for now*)
     # TRIPLE NOTE-> add baserunning as a variable as well(outcomes of baserunning are stealing, caught stealing, picked off)
@@ -22,6 +20,8 @@ def performancelinear():
     # QUADRUPLE NOTE-> after further data exploration, this is boiling down into total runs scored + total runs saved into a predictor for player performance -> WARP + defensive stat created, compare to WAR
     # QUINTUPLE NOTE-> For pitchers, it boils down to total runs saved through pitching really
     # pulling data for models from the cleaned data from the dataparser program
+
+def performancelinear():
     x_warp_train,x_warp_test,y_warp_train,y_warp_test,x_war_train,x_war_test,y_war_train,y_war_test,a_warp_train,a_warp_test,b_warp_train,b_warp_test,a_war_train, a_war_test, b_war_train, b_war_test = data_preparation()
     regressor = LinearRegression()
     regressor.fit(x_warp_train, y_warp_train)
@@ -154,7 +154,7 @@ def data_preparation():
     a_war_train, a_war_test, b_war_train, b_war_test = train_test_split(a_war,b_war, test_size=.25,random_state=1)
     
 
-    return (x_warp_train,x_warp_test,y_warp_train,y_warp_test,x_war_train,x_war_test,y_war_train,y_war_test,a_warp_train,a_warp_test,b_warp_train,b_warp_test,a_war_train, a_war_test, b_war_train, b_war_test)
+    return (x_warp_train,x_warp_test,y_warp_train,y_warp_test,x_war_train,x_war_test,y_war_train,y_war_test,a_warp_train,a_warp_test,b_warp_train,b_warp_test,a_war_train,a_war_test, b_war_train, b_war_test)
 
 
 def main():
