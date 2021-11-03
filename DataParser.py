@@ -61,7 +61,7 @@ def clean_sorted_baserunning():
 					else:
 						playerstotal.append(playerscurrent[x])
 						runsadded.append(1)
-		elif statlines[0] == 'CS':
+		elif statlines[0] == 'CS' | statlines[0] == 'Picked Off':
 			for x in int(statlines[1][:1]):
 				playerscurrent = re.findall(capitalized_words, statlines[x+2])
 			for x in range(0,len(playerscurrent)):
@@ -70,17 +70,6 @@ def clean_sorted_baserunning():
 						runsadded[x]-=1
 					else:
 						playerstotal.append(playerscurrent[x])
-						outssaved.append(-1)
-		elif statlines[0] == 'Picked Off':
-			for x in int(statlines[1][:1]):
-				playerscurrent = re.findall(capitalized_words, statlines[x+2])
-			for x in range(0,len(playerscurrent)):
-				for y in range(0,len(playerstotal)):
-					if playerscurrent[x] == playerstotal[y]:
-						runsadded[x]-=1
-					else:
-						playerstotal.append(playerscurrent[x])
-						runsadded.append(-1) 
 	for x in range(0, len(runsadded)):
 		scores[x] = (runsadded[x] / 3)
 
