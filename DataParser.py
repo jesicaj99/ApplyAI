@@ -27,17 +27,17 @@ def clean_sorted_pitcher():
 	return sorted_pitcher_df
 
 def clean_warp_hitter():
-	warp_hitter_df.drop(['bpid', 'mlbid', 'Age', 'DRC+', '+/-', 'PA', 'R', 'RBI','ISO', 'K', 'BB%','Whiff%'], axis = 1)
+	warp_hitter_df.drop(['bpid', 'mlbid', 'Age', 'DRC+', '+/-', 'PA', 'R', 'RBI','ISO', 'K%', 'BB%','Whiff%'], axis = 1)
 	sorted_warphitter_df = warp_hitter_df.sort_values(by='WARP')
 	return sorted_warphitter_df
 
 def clean_warp_pitcher():
-	warp_pitcher_df.drop(['bpid', 'mlbid', 'DRA-', 'DRA+', 'DRA SD', 'cFIP', 'GS', 'W','L', 'ERA', 'RA9','Whiff%'], axis = 1)
+	warp_pitcher_df.drop(['bpid', 'mlbid', 'DRA-', 'DRA', 'DRA SD', 'cFIP', 'GS', 'W','L', 'ERA', 'RA9','Whiff%'], axis = 1)
 	sorted_warppitcher_df = warp_pitcher_df.sort_values(by='WARP')
 	return sorted_warppitcher_df
 
 def clean_war():
-	war_df.drop(['playerid','Team','Pos'])
+	war_df.drop(['playerid','Team','Pos'], axis = 1)
 	sorted_war_df = war_df.sort_values(by='Total WAR')
 	return sorted_war_df
 

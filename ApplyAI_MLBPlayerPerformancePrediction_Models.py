@@ -1,14 +1,12 @@
-from os import name
 import pandas as pd
-from DataParser import clean_defensive_players, clean_sorted_baserunning, clean_sorted_fielding, clean_sorted_hitter, clean_sorted_pitcher, clean_war, clean_warp_hitter, clean_warp_pitcher
+from DataParser import *
 import numpy as np
 from sklearn.model_selection import train_test_split
-from scikit.linear_model import LinearRegression
-from scikit.linear_model import Lasso
-from scikit.linear_model import ElasticNet
+from sklearn.linear_model import LinearRegression
+from sklearn.linear_model import Lasso
+from sklearn.linear_model import ElasticNet
 from sklearn.neighbors import KNeighborsClassifier
 from sklearn.metrics import mean_absolute_error,r2_score, mean_squared_error
-import DataParser.py
 import plotly.express as px
 
 #first attempt approach with hitter data/stats, then depending on efficacy tweak & add defensive stats
@@ -113,8 +111,8 @@ def data_preparation():
 	hitter_pred_data = clean_warp_hitter()
 	pitcher_data = clean_sorted_pitcher()
 	pitcher_pred_data = clean_warp_pitcher()
-	defensive_values = clean_defensive_players() 
-	baserunning_values = clean_sorted_baserunning() 
+	#defensive_values = clean_defensive_players() 
+	#baserunning_values = clean_sorted_baserunning() 
 	war_values = clean_war()
 
 	x_warp = []
@@ -122,35 +120,35 @@ def data_preparation():
 	x_war = []
 	y_war = []
 	#multiple linear regression where x is composed of multiple variables
-	for row in hitter_pred_data.iterrows():
-		name = row[0]
-		if hitter_data.loc[hitter_data['name']==name]:
+	for index,row in hitter_pred_data.iterrows():
+		name = row['Name']
+		if hitter_data['Hitters'].values[0]==name:
 			x_warp += hitter_data[name,['K','BB','AVG','OBP','SLG']]
 			x_war += hitter_data[name,['K','BB','AVG','OBP','SLG']]
 			# y is pulled from a separate database that I pulled to actually get the x variables to predict a "performance number" rather than a correlation between two statistics 
 			y_warp += hitter_pred_data['WARP']
 			y_war+=war_values['Total War']
-		if defensive_values.get_val(name) != "No record found":
-			x_war+= defensive_values.get_val(name)
-		if baserunning_values.get_val(name) != "No record found":
-			x_war+= baserunning_values.get_val(name)
+		#if defensive_values.get_val(name) != "No record found":
+		#	x_war+= defensive_values.get_val(name)
+		#if baserunning_values.get_val(name) != "No record found":
+	#		x_war+= baserunning_values.get_val(name)
 
 	# add additional factors based off of rows in the relevant cavs, (player.csv for players, pitcher.csv for pitchers)
-	x_warp_train, x_warp_test, y_warp_train, y_warp_test = train_test_split(x_warp,y_warp, test_size=.25,random_state=1)
-	x_war_train, x_war_test, y_war_train, y_war_test = train_test_split(x_war, y_war, test_size = .25, random_state=1)
+	x_warp_train, x_warp_test, y_warp_train, y_warp_test = train_test_split(x_warp,y_warp, test_size=.25,train_size = .75,random_state=1)
+	x_war_train, x_war_test, y_war_train, y_war_test = train_test_split(x_war, y_war, test_size = .25,train_size = .75, random_state=1)
 	a_warp = []
 	b_warp = []
 	a_war=[]
 	b_war = []
 	for row in pitcher_pred_data.iterrows():
-		name = row[0]
-		if pitcher_data.loc[pitcher_data['name']==name]:
+		name = row['Name']
+		if pitcher_data['Pitchers'].values[0]==name:
 			a_warp += pitcher_data[name,['IP', 'BB','K','HR','ERA']]
 			# y is pulled from a separate database that I pulled to actually get the x variables to predict a "performance number" rather than a correlation between two statistics 
 			b_warp+= pitcher_pred_data['WARP']
 			b_war+=war_values['Primary WAR']
-	a_warp_train, a_warp_test, b_warp_train, b_warp_test = train_test_split(a_warp,b_warp, test_size=.25,random_state=1)
-	a_war_train, a_war_test, b_war_train, b_war_test = train_test_split(a_war,b_war, test_size=.25,random_state=1)
+	a_warp_train, a_warp_test, b_warp_train, b_warp_test = train_test_split(a_warp,b_warp, test_size=.25,train_size = .75,random_state=1)
+	a_war_train, a_war_test, b_war_train, b_war_test = train_test_split(a_war,b_war, test_size=.25,train_size = .75,random_state=1)
 	
 
 	return (x_warp_train,x_warp_test,y_warp_train,y_warp_test,x_war_train,x_war_test,y_war_train,y_war_test,a_warp_train,a_warp_test,b_warp_train,b_warp_test,a_war_train,a_war_test, b_war_train, b_war_test)
