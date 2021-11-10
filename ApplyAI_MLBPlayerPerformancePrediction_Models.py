@@ -120,6 +120,18 @@ def data_preparation():
 	x_war = []
 	y_war = []
 	#multiple linear regression where x is composed of multiple variables
+
+	## Possible solution that accounts for the disproportionate amount of values in the hitter_data csv compared to the hitter_pred_Data csv, UNTESTED
+	for index,row in hitter_data.iterrows():
+		name = row["Hitters"]
+		if hitter_pred_data['Name'].values[0]==name:
+			x_warp += hitter_data[name,['K','BB','AVG','OBP','SLG']]
+			x_war += hitter_data[name,['K','BB','AVG','OBP','SLG']]
+			# y is pulled from a separate database that I pulled to actually get the x variables to predict a "performance number" rather than a correlation between two statistics 
+			y_warp += hitter_pred_data['WARP']
+			y_war+=war_values['Total War']
+
+	# previous lines 123-125 for Ms. Yao
 	for index,row in hitter_pred_data.iterrows():
 		name = row['Name']
 		if hitter_data['Hitters'].values[0]==name:
