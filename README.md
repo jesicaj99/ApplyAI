@@ -1,4 +1,4 @@
-# ApplyAI Project Team 11 (Siddharth Nair, Jesica Jimenez, John Paul Bartsch)
+# ApplyAI Project Team 11 (Siddharth Nair, John Paul Bartsch)
 
 **What is BaseballPerformanceApproximator(BPA)?**
 BPA is a project created by the three of us for the ApplyAI program, effectively attempting to utilize Machine Learning to conduct data exploration on the topic of our choosing,
